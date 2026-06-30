@@ -1,4 +1,4 @@
-const image = (path: string) => `/images/${path}`;
+const image = (path: string) => `${import.meta.env.BASE_URL}images/${path}`;
 const cutout = (fileName: string) => image(`cutouts/${fileName}`);
 
 export type DecorAssetSlot =

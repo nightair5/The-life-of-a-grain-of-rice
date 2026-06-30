@@ -26,6 +26,8 @@ npm run dev
 npm run build
 ```
 
+打包结果会输出到 `docs/`，用于 GitHub Pages 静态访问。
+
 ## 项目结构
 
 ```text
@@ -33,6 +35,7 @@ src/
   components/   H5 页面组件、互动组件和海报生成组件
   data/         页面内容、素材映射和旅程状态文案
 public/images/ 运行时图片素材
+docs/          GitHub Pages 发布目录，由 npm run build 生成
 ```
 
 ## 作品说明
