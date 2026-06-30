@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vite/
+.DS_Store
+Thumbs.db
+*.local
+
+# Raw generation drafts. The app uses the semantic files in public/images.
+image/
+public/images/ChatGPT Image*.png
