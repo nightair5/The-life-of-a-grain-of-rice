@@ -75,7 +75,18 @@
         allow="clipboard-write"
       ></iframe>
     </div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      (function () {
+        if (document.documentElement.classList.contains("github-pages-host")) {
+          return;
+        }
+
+        var script = document.createElement("script");
+        script.type = "module";
+        script.src = "/src/main.tsx";
+        document.body.appendChild(script);
+      })();
+    </script>
     <noscript>请开启 JavaScript 后体验《一粒米的一生》H5。</noscript>
   </body>
 </html>
