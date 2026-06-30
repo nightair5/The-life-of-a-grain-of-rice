@@ -118,7 +118,13 @@ export default function CompareSlider({
         onKeyDown={handleKeyDown}
       >
         <article className="compare-destiny-panel compare-destiny-save">
-          <img src={comparison.save.image} alt="" draggable="false" />
+          <img
+            src={comparison.save.image}
+            alt=""
+            draggable="false"
+            loading="lazy"
+            decoding="async"
+          />
           <div className="compare-panel-tone compare-panel-warm" aria-hidden="true" />
           <div className="compare-table-light" aria-hidden="true" />
           <div className="compare-rice-stream compare-rice-stream-save" aria-hidden="true">
@@ -137,7 +143,13 @@ export default function CompareSlider({
         </article>
 
         <article className="compare-destiny-panel compare-destiny-waste">
-          <img src={comparison.waste.image} alt="" draggable="false" />
+          <img
+            src={comparison.waste.image}
+            alt=""
+            draggable="false"
+            loading="lazy"
+            decoding="async"
+          />
           <div className="compare-panel-tone compare-panel-cold" aria-hidden="true" />
           <div className="compare-waste-shadow" aria-hidden="true" />
           <div className="compare-rice-stream compare-rice-stream-waste" aria-hidden="true">

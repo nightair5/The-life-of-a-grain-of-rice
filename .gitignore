@@ -9,3 +9,7 @@ Thumbs.db
 image/
 public/images/ChatGPT Image*.png
 docs/images/ChatGPT Image*.png
+public/images/rice-*.png
+public/images/cutouts/*.png
+docs/images/rice-*.png
+docs/images/cutouts/*.png

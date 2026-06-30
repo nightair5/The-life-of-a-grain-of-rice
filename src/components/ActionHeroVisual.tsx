@@ -25,6 +25,7 @@ export default function ActionHeroVisual() {
         src={riceAssets.action.branch}
         alt=""
         draggable="false"
+        decoding="async"
         animate={{ y: [0, -7, 0], rotate: [-1.2, 1.2, -1.2] }}
         transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}
       />

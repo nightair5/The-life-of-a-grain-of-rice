@@ -121,6 +121,7 @@ export default function PageShell({
             src={page.image.src}
             alt={page.image.role === "background" ? "" : page.image.alt}
             loading={pageIndex < 2 ? "eager" : "lazy"}
+            decoding="async"
             draggable="false"
             onError={() => onImageError(page.image.src)}
           />

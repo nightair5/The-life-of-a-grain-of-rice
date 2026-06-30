@@ -20,6 +20,7 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -30,16 +31,33 @@ body,
   margin: 0;
 }
 
+html {
+  background: #08251f;
+  overscroll-behavior: none;
+}
+
 body {
   overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 button {
   font: inherit;
+  touch-action: manipulation;
+}
+
+img {
+  max-width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .app-stage {
   width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
   min-height: 100dvh;
   display: grid;
   place-items: center;
@@ -52,7 +70,11 @@ button {
 .phone-frame {
   position: relative;
   width: min(100vw, 430px);
+  height: 100vh;
+  height: 100svh;
   height: 100dvh;
+  min-height: 100vh;
+  min-height: 100svh;
   min-height: 100dvh;
   overflow: hidden;
   background:
@@ -60,6 +82,7 @@ button {
     linear-gradient(180deg, var(--paper-white) 0%, var(--rice-white) 54%, #e4ead9 100%);
   box-shadow: var(--paper-shadow);
   isolation: isolate;
+  overscroll-behavior: none;
   touch-action: pan-y;
 }
 
@@ -295,6 +318,8 @@ button {
   object-position: var(--image-position, 50% 50%);
   user-select: none;
   -webkit-user-drag: none;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .ambient-decor {
@@ -302,6 +327,14 @@ button {
   inset: 0;
   z-index: 4;
   pointer-events: none;
+}
+
+.ambient-img,
+.universe-rice-core,
+.action-hero-branch,
+.compare-destiny-panel img,
+.poster-bg-image {
+  backface-visibility: hidden;
 }
 
 .ambient-ring {

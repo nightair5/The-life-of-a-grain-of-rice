@@ -19,6 +19,7 @@ export default function HomeUniverseScene() {
         src={riceAssets.home.universe}
         alt=""
         draggable="false"
+        decoding="async"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: [1, 1.018, 1], y: [0, -7, 0] }}
         transition={{

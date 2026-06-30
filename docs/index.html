@@ -11,6 +11,13 @@
       content="《一粒米的一生》移动端 H5 互动公益广告，讲述从田间到餐桌的惜粮旅程。"
     />
     <meta name="theme-color" content="#08251f" />
+    <link rel="preload" as="image" href="./images/home-rice.webp" type="image/webp" />
+    <link
+      rel="preload"
+      as="image"
+      href="./images/cutouts/home-rice-universe.webp"
+      type="image/webp"
+    />
     <title>一粒米的一生</title>
     <style>
       html,
@@ -23,12 +30,62 @@
       body {
         background: #08251f;
       }
+
+      .boot-screen {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: rgba(255, 249, 236, 0.82);
+        background:
+          radial-gradient(circle at 50% 18%, rgba(211, 161, 59, 0.22), transparent 34%),
+          linear-gradient(145deg, #08251f 0%, #12332e 52%, #102d34 100%);
+        font-family:
+          "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Microsoft YaHei",
+          serif;
+      }
+
+      .boot-screen span {
+        position: relative;
+        padding-top: 64px;
+        font-size: 16px;
+        letter-spacing: 0.12em;
+      }
+
+      .boot-screen span::before {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 24px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #fff6c9, #d3a13b);
+        box-shadow: 0 0 32px rgba(211, 161, 59, 0.34);
+        content: "";
+        transform: translateX(-50%) rotate(18deg);
+        animation: bootRice 1.8s ease-in-out infinite;
+      }
+
+      @keyframes bootRice {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0) rotate(18deg);
+        }
+
+        50% {
+          transform: translateX(-50%) translateY(-9px) rotate(10deg);
+        }
+      }
     </style>
-    <script type="module" crossorigin src="./assets/index-BUZ4NBSu.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Dj9Xk39s.css">
+    <script type="module" crossorigin src="./assets/index-BXK1rFV4.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B9vMgMLZ.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="boot-screen" aria-label="页面加载中">
+        <span>一粒米正在醒来</span>
+      </div>
+    </div>
     <noscript>请开启 JavaScript 后体验《一粒米的一生》H5。</noscript>
   </body>
 </html>

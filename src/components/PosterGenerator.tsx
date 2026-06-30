@@ -1,4 +1,3 @@
-import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { riceAssets } from "../data/assets";
 
@@ -225,6 +224,7 @@ export default function PosterGenerator({
 
         const posterRect = posterElement.getBoundingClientRect();
         const scale = POSTER_WIDTH / posterRect.width;
+        const { default: html2canvas } = await import("html2canvas");
 
         const canvas = await html2canvas(posterElement, {
           backgroundColor: "#f7f1df",
@@ -298,6 +298,7 @@ export default function PosterGenerator({
           src={riceAssets.action.posterBranch}
           alt=""
           draggable="false"
+          decoding="async"
           onError={(event) => {
             event.currentTarget.style.display = "none";
           }}

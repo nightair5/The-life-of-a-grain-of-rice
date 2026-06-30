@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,12 +28,29 @@ function runViteBuild() {
   });
 }
 
+async function cleanGeneratedDrafts() {
+  const docsImages = resolve(projectRoot, "docs", "images");
+  const entries = await readdir(docsImages, { withFileTypes: true });
+
+  await Promise.all(
+    entries
+      .filter(
+        (entry) =>
+          entry.isFile() &&
+          entry.name.startsWith("ChatGPT Image") &&
+          entry.name.endsWith(".png"),
+      )
+      .map((entry) => rm(resolve(docsImages, entry.name), { force: true })),
+  );
+}
+
 const githubPagesIndex = await readFile(indexPath, "utf8");
 const appIndex = await readFile(appIndexPath, "utf8");
 
 try {
   await writeFile(indexPath, appIndex);
   await runViteBuild();
+  await cleanGeneratedDrafts();
 } finally {
   await writeFile(indexPath, githubPagesIndex);
 }
