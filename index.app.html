@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content"
     />
     <meta
       name="description"
@@ -19,16 +19,62 @@
       type="image/webp"
     />
     <title>一粒米的一生</title>
+    <script>
+      (function () {
+        var lastWidth = 0;
+        var lastHeight = 0;
+        var frameId = 0;
+
+        function applyViewportSize(force) {
+          window.cancelAnimationFrame(frameId);
+          frameId = window.requestAnimationFrame(function () {
+            var viewport = window.visualViewport;
+            var width = Math.round(window.innerWidth || (viewport && viewport.width) || 0);
+            var height = Math.round(window.innerHeight || (viewport && viewport.height) || 0);
+            var isRealResize =
+              Math.abs(width - lastWidth) > 8 ||
+              Math.abs(height - lastHeight) > 140;
+
+            if (force || !lastHeight || isRealResize) {
+              document.documentElement.style.setProperty("--app-height", height + "px");
+              document.documentElement.style.setProperty("--app-width", width + "px");
+              lastWidth = width;
+              lastHeight = height;
+            }
+          });
+        }
+
+        applyViewportSize(true);
+        window.addEventListener("resize", function () {
+          applyViewportSize(false);
+        });
+        window.addEventListener("orientationchange", function () {
+          applyViewportSize(true);
+          window.setTimeout(function () {
+            applyViewportSize(true);
+          }, 320);
+        });
+        window.visualViewport &&
+          window.visualViewport.addEventListener("resize", function () {
+            applyViewportSize(false);
+          });
+      })();
+    </script>
     <style>
       html,
       body {
         width: 100%;
-        min-height: 100%;
+        height: max(var(--app-height, 100vh), 100vh);
+        min-height: 0;
         margin: 0;
+        overflow: hidden;
       }
 
       body {
+        position: fixed;
+        inset: 0;
         background: #08251f;
+        overscroll-behavior: none;
       }
 
       .boot-screen {

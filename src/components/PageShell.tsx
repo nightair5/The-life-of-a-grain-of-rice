@@ -52,6 +52,24 @@ function grainVariant(visual: RicePage["visual"]) {
   return "light" as const;
 }
 
+function useMobileStableMotion() {
+  const [isMobileStableMotion, setIsMobileStableMotion] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(hover: none) and (pointer: coarse)");
+    const update = () => setIsMobileStableMotion(query.matches);
+
+    update();
+    query.addEventListener("change", update);
+
+    return () => {
+      query.removeEventListener("change", update);
+    };
+  }, []);
+
+  return isMobileStableMotion;
+}
+
 export default function PageShell({
   page,
   pageIndex,
@@ -69,6 +87,7 @@ export default function PageShell({
 }: PageShellProps) {
   const [harvestComplete, setHarvestComplete] = useState(false);
   const [seedComplete, setSeedComplete] = useState(false);
+  const useStableMotion = useMobileStableMotion();
   const isLastPage = pageIndex === totalPages - 1;
   const isHarvestPage = page.visual === "harvest";
   const isSeedPage = page.visual === "seed";
@@ -98,10 +117,21 @@ export default function PageShell({
       className={`poster-page poster-${page.visual} layout-${page.layout}${
         isHomeLeaving ? " home-leaving" : ""
       }`}
-      initial={{ opacity: 0, y: 40, scale: 0.985 }}
+      initial={
+        useStableMotion
+          ? { opacity: 0, y: 18 }
+          : { opacity: 0, y: 40, scale: 0.985 }
+      }
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -32, scale: 0.985 }}
-      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+      exit={
+        useStableMotion
+          ? { opacity: 0, y: -14 }
+          : { opacity: 0, y: -32, scale: 0.985 }
+      }
+      transition={{
+        duration: useStableMotion ? 0.46 : 0.75,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       aria-labelledby={`${page.id}-title`}
     >
       {!isImageFailed ? (
@@ -112,9 +142,14 @@ export default function PageShell({
               "--image-position": page.image.position ?? "50% 50%",
             } as CSSProperties
           }
-          initial={{ opacity: 0.72, scale: 1.04 }}
+          initial={
+            useStableMotion ? { opacity: 0.86 } : { opacity: 0.72, scale: 1.04 }
+          }
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{
+            duration: useStableMotion ? 0.58 : 1.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           aria-hidden={page.image.role === "background"}
         >
           <img

@@ -14,7 +14,70 @@ function clampPage(pageIndex: number) {
   return Math.min(Math.max(pageIndex, 0), lastPageIndex);
 }
 
+function useMobileViewportLock() {
+  useEffect(() => {
+    const root = document.documentElement;
+    let lastWidth = 0;
+    let lastHeight = 0;
+    let frameId = 0;
+
+    const applyViewportSize = (force = false) => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const viewport = window.visualViewport;
+        const width = Math.round(window.innerWidth || viewport?.width || 0);
+        const height = Math.round(window.innerHeight || viewport?.height || 0);
+        const isRealResize =
+          Math.abs(width - lastWidth) > 8 || Math.abs(height - lastHeight) > 140;
+
+        if (force || !lastHeight || isRealResize) {
+          root.style.setProperty("--app-height", `${height}px`);
+          root.style.setProperty("--app-width", `${width}px`);
+          lastWidth = width;
+          lastHeight = height;
+        }
+      });
+    };
+
+    const handleResize = () => applyViewportSize(false);
+
+    const handleVisualViewportResize = () => applyViewportSize(false);
+
+    const handleOrientationChange = () => {
+      applyViewportSize(true);
+      window.setTimeout(() => applyViewportSize(true), 320);
+    };
+
+    const preventDocumentPan = (event: TouchEvent) => {
+      if (event.touches.length === 1) {
+        event.preventDefault();
+      }
+    };
+
+    applyViewportSize(true);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleOrientationChange);
+    window.visualViewport?.addEventListener("resize", handleVisualViewportResize);
+    document.addEventListener("touchmove", preventDocumentPan, {
+      passive: false,
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleOrientationChange);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        handleVisualViewportResize,
+      );
+      document.removeEventListener("touchmove", preventDocumentPan);
+    };
+  }, []);
+}
+
 export default function App() {
+  useMobileViewportLock();
+
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
   const [showActionPoster, setShowActionPoster] = useState(false);
